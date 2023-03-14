@@ -1,0 +1,10 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/screens.rpy", line 582: Line is indented, but the preceding tag statement does not expect a block. Please check this line's indentation.
+    imagemap:
+    ^
+
+Ren'Py Version: Ren'Py 8.0.3.22090809
+Mon Mar 13 19:46:19 2023
