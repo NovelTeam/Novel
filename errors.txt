@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 582: Line is indented, but the preceding tag statement does not expect a block. Please check this line's indentation.
-    imagemap:
-    ^
+File "game/screens.rpy", line 914: for expects a non-empty block.
+    if not _history_list:
+                         ^
 
 Ren'Py Version: Ren'Py 8.0.3.22090809
-Mon Mar 13 19:46:19 2023
+Wed Mar 15 20:12:47 2023

@@ -23,7 +23,7 @@ init python:
 ## Цвета текста в интерфейсе.
 
 ## Акцентный цвет используется в заголовках и подчёркнутых текстах.
-define gui.accent_color = '#cc0066'
+define gui.accent_color = '#5ddad5'
 
 ## Цвет, используемый в текстовой кнопке, когда она не выбрана и не наведена.
 define gui.idle_color = '#aaaaaa'
@@ -62,7 +62,7 @@ define gui.text_font = "SFProDisplay-Regular.ttf"
 define gui.name_text_font = "SFProDisplay-Regular.ttf"
 
 ## Шрифт, используемый текстом вне игры.
-define gui.interface_text_font = "SFProDisplay-Regular.ttf"
+define gui.interface_text_font = "Molot.ttf"
 
 ## Размер нормального текста диалога.
 define gui.text_size = 26
@@ -80,7 +80,7 @@ define gui.label_text_size = 36
 define gui.notify_text_size = 24
 
 ## Размер заголовка игры.
-define gui.title_text_size = 75
+define gui.title_text_size = 55
 
 
 ## Главное и игровое меню. #####################################################
@@ -340,24 +340,25 @@ define gui.unscrollable = "hide"
 ## Экран истории показывает диалог, который игрок уже прошёл.
 
 ## Количество диалоговых блоков истории, которые Ren'Py будет хранить.
-define config.history_length = 250
+define config.history_length = 260
 
 ## Высота доступных записей на экране истории, или None, чтобы задать высоту в
 ## зависимости от производительности.
-define gui.history_height = 210
+define gui.history_height = None
 
 ## Местоположение, ширина и выравнивание заголовка, показывающего имя говорящего
 ## персонажа.
-define gui.history_name_xpos = 233
+define gui.history_name_xpos = 140
 define gui.history_name_ypos = 0
 define gui.history_name_width = 233
 define gui.history_name_xalign = 1.0
 
 ## Местоположение, ширина и выравнивание диалогового текста.
-define gui.history_text_xpos = 255
+define gui.history_text_xpos = 160
 define gui.history_text_ypos = 3
 define gui.history_text_width = 1110
 define gui.history_text_xalign = 0.0
+define gui.history_text_color = '#white'
 
 
 ## Режим NVL ###################################################################

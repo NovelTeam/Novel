@@ -59,6 +59,8 @@ style vscrollbar:
     xsize gui.scrollbar_size
     base_bar Frame("gui/scrollbar/vertical_[prefix_]bar.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
     thumb Frame("gui/scrollbar/vertical_[prefix_]thumb.png", gui.vscrollbar_borders, tile=gui.scrollbar_tile)
+    unscrollable "hide"
+    ## Prevents Ren'Py from showing a scrollbar when there's nothing to scroll
 
 style slider:
     ysize gui.slider_size
@@ -287,27 +289,33 @@ style quick_button_text:
 
 screen navigation():
 
-    vbox:
+    fixed:
         style_prefix "navigation"
 
-        xpos gui.navigation_xpos
-        yalign 0.5
+        # xpos gui.navigation_xpos
+        # yalign 0.5
 
         spacing gui.navigation_spacing
 
         if main_menu:
 
-            textbutton _("Начать") action Start()
+            # textbutton _("Начать") action Start()
+            imagebutton auto "gui/mm_startlm_%s.png" xpos 7 ypos 298 action Start() hovered [Play("sound","audio/click.wav")]
 
         else:
 
-            textbutton _("История") action ShowMenu("history")
+            # textbutton _("История") action ShowMenu("history")
+            # imagebutton auto ("gui/mm_historylm_%s.png") xpos 7 ypos 298 action ShowMenu("history") hovered [Play("sound","audio/click.wav")]
 
-            textbutton _("Сохранить") action ShowMenu("save")
+            # textbutton _("Сохранить") action ShowMenu("save")
+            imagebutton auto ("gui/mm_savelm_%s.png") xpos 13 ypos 510 action ShowMenu("save") hovered [Play("sound","audio/click.wav")]
 
-        textbutton _("Загрузить") action ShowMenu("load")
+        # textbutton _("Загрузить") action ShowMenu("load")
+        imagebutton auto "gui/mm_loadlm_%s.png" xpos 8 ypos 438 action ShowMenu("load") hovered [Play("sound","audio/click.wav")]
 
-        textbutton _("Настройки") action ShowMenu("preferences")
+
+        # textbutton _("Настройки") action ShowMenu("preferences")
+        imagebutton auto "gui/mm_settingslm_%s.png" xpos 13 ypos 573 action ShowMenu("preferences") hovered [Play("sound","audio/click.wav")]
 
         if _in_replay:
 
@@ -315,20 +323,23 @@ screen navigation():
 
         elif not main_menu:
 
-            textbutton _("Главное меню") action MainMenu()
+            # textbutton _("Главное меню") action MainMenu()
+            imagebutton auto ("gui/mm_mainmenulm_%s.png") xpos 13 ypos 722 action MainMenu() hovered [Play("sound","audio/click.wav")]
 
         # textbutton _("Об игре") action ShowMenu("about")
+        imagebutton auto ("gui/mm_aboutlm_%s.png") xpos 13 ypos 652 action ShowMenu("about") hovered [Play("sound","audio/click.wav")]
 
-        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+        # if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
             ## Помощь не необходима и не относится к мобильным устройствам.
-            textbutton _("Помощь") action ShowMenu("help")
+            # textbutton _("Помощь") action ShowMenu("help")
 
         if renpy.variant("pc"):
 
             ## Кнопка выхода блокирована в iOS и не нужна на Android и в веб-
             ## версии.
-            textbutton _("Выход") action Quit(confirm=not main_menu)
+            # textbutton _("Выход") action Quit(confirm=not main_menu)
+            imagebutton auto "gui/mm_exitlm_%s.png" xpos 11 ypos 798 action Quit(confirm=True) hovered [Play("sound","audio/click.wav")]
             
 
 
@@ -360,13 +371,13 @@ screen main_menu():
         idle "gui/textbgmenu1.png"
         hover "gui/textbgmenu2.png"
 
-        hotspot(18, 390, 500, 106) action Start()
+        hotspot(18, 390, 500, 106) action Start() hovered [Play("sound", "audio/click.wav")]
         
-        hotspot(18, 514, 720, 106 ) action ShowMenu ("load")
+        hotspot(18, 514, 720, 106 ) action ShowMenu ("load") hovered [Play("sound", "audio/click.wav")]
         
-        hotspot(18, 620, 750, 106) action ShowMenu ("preferences")
+        hotspot(18, 620, 750, 106) action ShowMenu ("preferences") hovered [Play("sound", "audio/click.wav")]
 
-        hotspot(18, 900, 460 , 106) action Quit(confirm=True)
+        hotspot(18, 900, 460 , 106) action Quit(confirm=True) hovered [Play("sound", "audio/click.wav")]
 
 style main_menu_frame is empty
 style main_menu_vbox is vbox
@@ -417,7 +428,7 @@ screen game_menu(title, scroll=None, yinitial=0.0):
 
     frame:
         style "game_menu_outer_frame"
-
+        
         hbox:
 
             ## Резервирует пространство для навигации.
@@ -462,10 +473,11 @@ screen game_menu(title, scroll=None, yinitial=0.0):
 
     use navigation
 
-    textbutton _("Вернуться"):
-        style "return_button"
+    # textbutton _("Вернуться"):
+    #     style "return_button"
 
-        action Return()
+    #     action Return()   
+    imagebutton auto ("gui/mm_returnlm_%s.png") xpos 11 ypos 368 action Return() hovered [Play("sound", "audio/click.wav")]
 
     label title
 
@@ -497,8 +509,8 @@ style game_menu_navigation_frame:
     yfill True
 
 style game_menu_content_frame:
-    left_margin 60
-    right_margin 30
+    left_margin 120
+    right_margin 60
     top_margin 15
 
 style game_menu_viewport:
@@ -511,8 +523,8 @@ style game_menu_side:
     spacing 15
 
 style game_menu_label:
-    xpos 75
-    ysize 180
+    xpos 0.5
+    ysize 120
 
 style game_menu_label_text:
     size gui.title_text_size
@@ -573,6 +585,8 @@ style about_label_text:
 screen save():
 
     tag menu    
+    imagemap:
+        ground "gui/test.png"
 
     use file_slots(_("Сохранить"))
 
@@ -581,15 +595,7 @@ screen load():
 
     tag menu
     imagemap:
-        
-        idle "gui/load_menu.png"
-        hover "gui/load_menu_hover.png"
-
-        hotspot(14, 100, 500, 106) action Start()
-        hotspot(14, 125, 550, 106 ) action ShowMenu ("load")
-
-
-
+        ground "gui/test.png"
    
     use file_slots(_("Загрузить"))
 
@@ -658,7 +664,7 @@ screen file_slots(title):
 
                 spacing gui.page_spacing
 
-                textbutton _("<") action FilePagePrevious()
+                # textbutton _("<") action FilePagePrevious()
 
                 if config.has_autosave:
                     textbutton _("{#auto_page}А") action FilePage("auto")
@@ -670,7 +676,7 @@ screen file_slots(title):
                 for page in range(1, 10):
                     textbutton "[page]" action FilePage(page)
 
-                textbutton _(">") action FilePageNext()
+                # textbutton _(">") action FilePageNext()
 
 
 style page_label is gui_label
@@ -714,8 +720,9 @@ style slot_button_text:
 screen preferences():
 
     tag menu
+   
 
-    use game_menu(_("Настройки"), scroll="viewport"):
+    use game_menu(_(""), scroll="viewport"):
 
         vbox:
 
@@ -726,16 +733,16 @@ screen preferences():
 
                     vbox:
                         style_prefix "radio"
-                        label _("Режим экрана")
-                        textbutton _("Оконный") action Preference("display", "window")
-                        textbutton _("Полный") action Preference("display", "fullscreen")
+                        label _("Режим экрана") xpos 350 
+                        textbutton _("Оконный") action Preference("display", "window") xpos 350 hovered [Play ("sound", "audio/click.wav")]
+                        textbutton _("Полный") action Preference("display", "fullscreen") xpos 350 hovered [Play ("sound", "audio/click.wav")]
 
                 vbox:
                     style_prefix "check"
-                    label _("Пропуск")
-                    textbutton _("Всего текста") action Preference("skip", "toggle")
-                    textbutton _("После выборов") action Preference("after choices", "toggle")
-                    textbutton _("Переходов") action InvertSelected(Preference("transitions", "toggle"))
+                    label _("Пропуск") xpos 450
+                    textbutton _("Всего текста") action Preference("skip", "toggle") xpos 450 hovered [Play ("sound", "audio/click.wav")]
+                    textbutton _("После выборов") action Preference("after choices", "toggle") xpos 450 hovered [Play ("sound", "audio/click.wav")]
+                    textbutton _("Переходов") action InvertSelected(Preference("transitions", "toggle")) xpos 450 hovered [Play ("sound", "audio/click.wav")]
 
                 ## Дополнительные vbox'ы типа "radio_pref" или "check_pref"
                 ## могут быть добавлены сюда для добавления новых настроек.
@@ -748,48 +755,49 @@ screen preferences():
 
                 vbox:
 
-                    label _("Скорость текста")
+                    label _("Скорость текста") xpos 200
 
-                    bar value Preference("text speed")
+                    bar value Preference("text speed") xpos 200 hovered [Play ("sound", "audio/click.wav")]
 
-                    label _("Скорость авточтения")
+                    label _("Скорость авточтения") xpos 200 
 
-                    bar value Preference("auto-forward time")
+                    bar value Preference("auto-forward time") xpos 200 hovered [Play ("sound", "audio/click.wav")]
 
-                vbox:
+                            
+
 
                     if config.has_music:
-                        label _("Громкость музыки")
+                        label _("Громкость музыки") xpos 200  
 
                         hbox:
-                            bar value Preference("music volume")
+                            bar value Preference("music volume") xpos 200 hovered [Play ("sound", "audio/click.wav")]
 
                     if config.has_sound:
 
-                        label _("Громкость звуков")
+                        label _("Громкость звуков") xpos 200 
 
                         hbox:
-                            bar value Preference("sound volume")
+                            bar value Preference("sound volume") xpos 200 hovered [Play ("sound", "audio/click.wav")]
 
                             if config.sample_sound:
-                                textbutton _("Тест") action Play("sound", config.sample_sound)
+                                textbutton _("Тест") action Play("sound", config.sample_sound) xpos 400 hovered [Play ("sound", "audio/click.wav")]
 
 
                     if config.has_voice:
-                        label _("Громкость голоса")
+                        label _("Громкость голоса") xpos 200 
 
                         hbox:
-                            bar value Preference("voice volume")
+                            bar value Preference("voice volume") xpos 200 hovered [Play ("sound", "audio/click.wav")]
 
                             if config.sample_voice:
-                                textbutton _("Тест") action Play("voice", config.sample_voice)
+                                textbutton _("Тест") action Play("voice", config.sample_voice) xpos 200 hovered [Play ("sound", "audio/click.wav")]
 
                     if config.has_music or config.has_sound or config.has_voice:
                         null height gui.pref_spacing
 
-                        textbutton _("Без звука"):
-                            action Preference("all mute", "toggle")
-                            style "mute_all_button"
+                        textbutton _("Без звука"): 
+                            action Preference("all mute", "toggle") xpos 172 hovered [Play ("sound", "audio/click.wav")]
+                            style "mute_all_button" 
 
 
 style pref_label is gui_label
@@ -874,42 +882,89 @@ screen history():
 
     tag menu
 
-    ## Избегайте предсказывания этого экрана, так как он может быть очень
-    ## массивным.
     predict False
 
-    use game_menu(_("История"), scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0):
+    frame:
 
         style_prefix "history"
 
-        for h in _history_list:
+        ## Style this as needed in the style definitions
+        label _("История диалогов")
 
-            window:
+        ## If you have a custom image you want to use for the screen, you can set it as
+        ## a Frame below.
+        # background Frame(["gui/frame.png"], gui.history_frame_borders, tile=True)
 
-                ## Это всё правильно уравняет, если history_height будет
-                ## установлен на None.
-                has fixed:
-                    yfit True
+        ## Using margin properties will allow the screen to automatically adjust should
+        ## you choose to use a different resolution than 1080p, and will always be centered. 
+        ## You can also resize the screen using "xmaximum", "ymaximum", or "maximum(x,y)"
+        ## if desired, but you will need to use "align(x,y)" to manually position it.
 
-                if h.who:
+        ## xmargin essentially combines the left_margin and right_margin properties
+        ## and sets them to the same value
+        xmargin 200
 
-                    label h.who:
-                        style "history_name"
-                        substitute False
+        ## ymargin essentially combines the top_margin and bottom_margin properties
+        ## and sets them to the same value
+        ymargin 50
 
-                        ## Берёт цвет из who параметра персонажа, если он
-                        ## установлен.
-                        if "color" in h.who_args:
-                            text_color h.who_args["color"]
+        ## xpadding essentially combines the left_padding and right_padding properties
+        ## and sets them to the same value
+        xpadding 50
 
-                $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
-                text what:
-                    substitute False
+        ## ypadding essentially combines the top_padding and bottom_padding properties
+        ## and sets them to the same value
+        ypadding 150
 
-        if not _history_list:
-            label _("История диалогов пуста.")
+        vpgrid:
 
+            cols 1
+            yinitial 1.0
 
+            draggable True
+            mousewheel True
+            scrollbars "vertical"
+
+            vbox:
+
+                for h in _history_list:
+
+                    window:
+
+                        ## This lays things out properly if history_height is None.
+                        has fixed:
+                            yfit True
+
+                        if h.who:
+
+                            label h.who:
+                                style "history_name"
+                                substitute False
+
+                                ## Take the color of the who text from the Character, if
+                                ## set.
+                                if "color" in h.who_args:
+                                    text_color h.who_args["color"]
+
+                        $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
+                        text what:
+                            line_spacing 5
+                            substitute False
+
+                    ## This puts some space between entries so it's easier to read
+                    null height 20
+
+                if not _history_list:
+
+                    text "Тут пока пусто." line_spacing 10
+                    ## Adding line_spacing prevents the bottom of the text
+                    ## from getting cut off. Adjust when replacing the
+                    ## default fonts.
+
+        textbutton "Return":
+            style "history_return_button"
+            action Return()
+            alt _("Return") 
 ## Это определяет, какие теги могут отображаться на экране истории.
 
 define gui.history_allow_tags = { "alt", "noalt", "rt", "rb", "art" }
@@ -949,9 +1004,16 @@ style history_text:
 
 style history_label:
     xfill True
+    top_margin -100
 
 style history_label_text:
     xalign 0.5
+    ## Note: When altering the size of the label, you may need to increase the
+    ## ypadding of the Frame, or separate it again into top_padding and bottom_padding
+
+style history_return_button:
+    align(1.0,1.0)
+    yoffset 100
 
 
 ## Экран помощи ################################################################
@@ -966,7 +1028,7 @@ screen help():
 
     default device = "keyboard"
 
-    use game_menu(_("Помощь"), scroll="viewport"):
+    use game_menu(_(""), scroll="viewport"):
 
         style_prefix "help"
 
@@ -1147,9 +1209,9 @@ screen confirm(message, yes_action, no_action):
             yalign .5
             spacing 45
 
-            label _("Ты действительно хочешь бросить нас и уйти в реальный мир?"):
+            label _("Ты действительно хочешь бросить нас и уйти в реальный мир?" ):
                 style "confirm_prompt"
-                xalign 0.5
+                xalign 0.5                
 
             hbox:
                 xalign 0.5

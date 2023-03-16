@@ -12,7 +12,7 @@
 ##
 ## Символы "_()", окружающие название, отмечают его как пригодное для перевода.
 
-define config.name = _("renpy test")
+define config.name = _("Velvet Shoes")
 
 
 ## Определяет, показывать ли заголовок, данный выше, на экране главного меню.
@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## Версия игры.
 
-define config.version = "1.0"
+define config.version = "Poka ne kefteme"
 
 
 ## Текст, помещённый в экран "Об игре". Поместите текст между тройными скобками.
