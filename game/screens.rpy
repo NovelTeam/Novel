@@ -368,9 +368,7 @@ screen main_menu():
     tag menu
 
     imagemap:
-        ground "gui/bgmenu.png"
-        idle "gui/textbgmenu1.png"
-        hover "gui/textbgmenu2.png"
+        ground "gui/bgmenu.png"        
         
         imagebutton auto "gui/mm_start_%s.png" xpos 20 ypos 380 action [Play ("sound", "audio/click.wav"), Start()]
         
