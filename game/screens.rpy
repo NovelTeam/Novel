@@ -300,7 +300,7 @@ screen navigation():
         if main_menu:
 
             # textbutton _("Начать") action Start()
-            imagebutton auto "gui/mm_startlm_%s.png" xpos 7 ypos 298 action Start() hovered [Play("sound","audio/click.wav")]
+            imagebutton auto "gui/mm_startlm_%s.png" xpos 7 ypos 298 action [Play("sound","audio/click.wav"), Start()]
 
         else:
 
@@ -308,14 +308,14 @@ screen navigation():
             # imagebutton auto ("gui/mm_historylm_%s.png") xpos 7 ypos 298 action ShowMenu("history") hovered [Play("sound","audio/click.wav")]
 
             # textbutton _("Сохранить") action ShowMenu("save")
-            imagebutton auto ("gui/mm_savelm_%s.png") xpos 13 ypos 510 action ShowMenu("save") hovered [Play("sound","audio/click.wav")]
+            imagebutton auto ("gui/mm_savelm_%s.png") xpos 13 ypos 510 action [Play("sound","audio/click.wav"), ShowMenu("save")]
 
         # textbutton _("Загрузить") action ShowMenu("load")
-        imagebutton auto "gui/mm_loadlm_%s.png" xpos 8 ypos 438 action ShowMenu("load") hovered [Play("sound","audio/click.wav")]
+        imagebutton auto "gui/mm_loadlm_%s.png" xpos 8 ypos 438 action [Play("sound","audio/click.wav"), ShowMenu("load")]
 
 
         # textbutton _("Настройки") action ShowMenu("preferences")
-        imagebutton auto "gui/mm_settingslm_%s.png" xpos 13 ypos 573 action ShowMenu("preferences") hovered [Play("sound","audio/click.wav")]
+        imagebutton auto "gui/mm_settingslm_%s.png" xpos 13 ypos 573 action [Play("sound","audio/click.wav"), ShowMenu("preferences")]
 
         if _in_replay:
 
@@ -324,10 +324,10 @@ screen navigation():
         elif not main_menu:
 
             # textbutton _("Главное меню") action MainMenu()
-            imagebutton auto ("gui/mm_mainmenulm_%s.png") xpos 13 ypos 722 action MainMenu() hovered [Play("sound","audio/click.wav")]
+            imagebutton auto ("gui/mm_mainmenulm_%s.png") xpos 13 ypos 722 action [Play("sound","audio/click.wav"), MainMenu()]
 
         # textbutton _("Об игре") action ShowMenu("about")
-        imagebutton auto ("gui/mm_aboutlm_%s.png") xpos 13 ypos 652 action ShowMenu("about") hovered [Play("sound","audio/click.wav")]
+        imagebutton auto ("gui/mm_aboutlm_%s.png") xpos 13 ypos 652 action [Play("sound","audio/click.wav"), ShowMenu("about")]
 
         # if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
@@ -339,7 +339,7 @@ screen navigation():
             ## Кнопка выхода блокирована в iOS и не нужна на Android и в веб-
             ## версии.
             # textbutton _("Выход") action Quit(confirm=not main_menu)
-            imagebutton auto "gui/mm_exitlm_%s.png" xpos 11 ypos 798 action Quit(confirm=True) hovered [Play("sound","audio/click.wav")]
+            imagebutton auto "gui/mm_exitlm_%s.png" xpos 11 ypos 798 action [Play("sound","audio/click.wav"), Quit(confirm=True)]
             
 
 
@@ -361,6 +361,7 @@ style navigation_button_text:
 ## https://www.renpy.org/doc/html/screen_special.html#main-menu
 
 screen main_menu():
+   
 
     ## Этот тег гарантирует, что любой другой экран с тем же тегом будет
     ## заменять этот.
@@ -370,14 +371,17 @@ screen main_menu():
         ground "gui/bgmenu.png"
         idle "gui/textbgmenu1.png"
         hover "gui/textbgmenu2.png"
-
-        hotspot(18, 390, 500, 106) action Start() hovered [Play("sound", "audio/click.wav")]
         
-        hotspot(18, 514, 720, 106 ) action ShowMenu ("load") hovered [Play("sound", "audio/click.wav")]
+        imagebutton auto "gui/mm_start_%s.png" xpos 20 ypos 380 action [Play ("sound", "audio/click.wav"), Start()]
         
-        hotspot(18, 620, 750, 106) action ShowMenu ("preferences") hovered [Play("sound", "audio/click.wav")]
+        imagebutton auto "gui/mm_load_%s.png" xpos 17 ypos 506 action [Play ("sound", "audio/click.wav"), ShowMenu("load")]
+        
+        imagebutton auto "gui/mm_settings_%s.png" xpos 20 ypos 610 action [Play ("sound", "audio/click.wav"), ShowMenu("preferences")]
 
-        hotspot(18, 900, 460 , 106) action Quit(confirm=True) hovered [Play("sound", "audio/click.wav")]
+        imagebutton auto "gui/mm_about_%s.png" xpos 20 ypos 754 action [Play ("sound", "audio/click.wav"), ShowMenu("about")]
+
+        imagebutton auto "gui/mm_exit_%s.png" xpos 20 ypos 882 action [Play ("sound", "audio/click.wav"), Quit(confirm=True)]
+        
 
 style main_menu_frame is empty
 style main_menu_vbox is vbox
@@ -477,7 +481,7 @@ screen game_menu(title, scroll=None, yinitial=0.0):
     #     style "return_button"
 
     #     action Return()   
-    imagebutton auto ("gui/mm_returnlm_%s.png") xpos 11 ypos 368 action Return() hovered [Play("sound", "audio/click.wav")]
+    imagebutton auto ("gui/mm_returnlm_%s.png") xpos 11 ypos 368 action [Play("sound", "audio/click.wav"), Return()]
 
     label title
 
@@ -523,7 +527,7 @@ style game_menu_side:
     spacing 15
 
 style game_menu_label:
-    xpos 0.5
+    xpos 0.55
     ysize 120
 
 style game_menu_label_text:
@@ -708,7 +712,7 @@ style slot_button:
     properties gui.button_properties("slot_button")
 
 style slot_button_text:
-    properties gui.button_text_properties("slot_button")
+    properties gui.button_text_properties("slot_button") ypos 30
 
 
 ## Экран настроек ##############################################################
@@ -722,7 +726,7 @@ screen preferences():
     tag menu
    
 
-    use game_menu(_(""), scroll="viewport"):
+    use game_menu(_("Настройки"), scroll="viewport"):
 
         vbox:
 
@@ -755,39 +759,39 @@ screen preferences():
 
                 vbox:
 
-                    label _("Скорость текста") xpos 200
+                    label _("Скорость текста") xpos 0.75
 
-                    bar value Preference("text speed") xpos 200 hovered [Play ("sound", "audio/click.wav")]
+                    bar value Preference("text speed") xpos 0.58 hovered [Play ("sound", "audio/click.wav")]
 
-                    label _("Скорость авточтения") xpos 200 
+                    label _("Скорость авточтения") xpos 0.75 
 
-                    bar value Preference("auto-forward time") xpos 200 hovered [Play ("sound", "audio/click.wav")]
+                    bar value Preference("auto-forward time") xpos 0.58 hovered [Play ("sound", "audio/click.wav")]
 
                             
 
 
                     if config.has_music:
-                        label _("Громкость музыки") xpos 200  
+                        label _("Громкость музыки") xpos 0.75  
 
                         hbox:
-                            bar value Preference("music volume") xpos 200 hovered [Play ("sound", "audio/click.wav")]
+                            bar value Preference("music volume") xpos 0.75 hovered [Play ("sound", "audio/click.wav")]
 
                     if config.has_sound:
 
-                        label _("Громкость звуков") xpos 200 
+                        label _("Громкость звуков") xpos 0.75 
 
                         hbox:
-                            bar value Preference("sound volume") xpos 200 hovered [Play ("sound", "audio/click.wav")]
+                            bar value Preference("sound volume") xpos 0.75 hovered [Play ("sound", "audio/click.wav")]
 
                             if config.sample_sound:
                                 textbutton _("Тест") action Play("sound", config.sample_sound) xpos 400 hovered [Play ("sound", "audio/click.wav")]
 
 
                     if config.has_voice:
-                        label _("Громкость голоса") xpos 200 
+                        label _("Громкость голоса") xpos 0.75 
 
                         hbox:
-                            bar value Preference("voice volume") xpos 200 hovered [Play ("sound", "audio/click.wav")]
+                            bar value Preference("voice volume") xpos 0.75 hovered [Play ("sound", "audio/click.wav")]
 
                             if config.sample_voice:
                                 textbutton _("Тест") action Play("voice", config.sample_voice) xpos 200 hovered [Play ("sound", "audio/click.wav")]
@@ -796,7 +800,7 @@ screen preferences():
                         null height gui.pref_spacing
 
                         textbutton _("Без звука"): 
-                            action Preference("all mute", "toggle") xpos 172 hovered [Play ("sound", "audio/click.wav")]
+                            action Preference("all mute", "toggle") xpos 0.55 hovered [Play ("sound", "audio/click.wav")]
                             style "mute_all_button" 
 
 
@@ -956,7 +960,7 @@ screen history():
 
                 if not _history_list:
 
-                    text "Тут пока пусто." line_spacing 10
+                    text "Тут пока пусто." line_spacing 10 xpos 0.5
                     ## Adding line_spacing prevents the bottom of the text
                     ## from getting cut off. Adjust when replacing the
                     ## default fonts.

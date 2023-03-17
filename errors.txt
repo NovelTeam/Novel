@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 914: for expects a non-empty block.
-    if not _history_list:
-                         ^
+File "game/options.rpy", line 37: expected 'word' not found.
+    style.button.activate_sound = "click.wav"
+         ^
 
 Ren'Py Version: Ren'Py 8.0.3.22090809
-Wed Mar 15 20:12:47 2023
+Thu Mar 16 23:34:23 2023
