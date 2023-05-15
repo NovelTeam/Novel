@@ -22,3 +22,4 @@
 Основная механика игры - выбор действий, которые приводят к различным концовкам игры.
 
 https://www.figma.com/file/GT8S95TtAdEhi5H3yiOdsd/%22Раньше-трава-была-зеленее%22?type=design&node-id=0-1&t=QQVE3tIJG0gD7Y5x-0
+https://disk.yandex.ru/d/lDpRZR-9cHvIXA - билд игры
